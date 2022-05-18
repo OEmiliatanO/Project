@@ -13,7 +13,8 @@ K = [0] * maxn
 
 # original function
 def f(x):
-	return np.piecewise(x, [np.less_equal(abs(x), 1), np.logical_not(np.less_equal(abs(x), 1))], [1, 0])
+	#return np.piecewise(x, [np.less_equal(abs(x), 1), np.logical_not(np.less_equal(abs(x), 1))], [1, 0])
+	return np.sin(x)
 
 def calKn_cos():
 	dl = l / maxn
@@ -33,9 +34,9 @@ def calKn_sin():
 def calKn(mode = "cos"):
 	if mode == "cos":
 		calKn_cos()
-	else if mode == "sin":
+	elif mode == "sin":
 		calKn_sin()
-	else
+	else:
 		print("error argument")
 
 def u(x, t, alpha = 1, maxn = 1000):
