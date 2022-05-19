@@ -13,53 +13,58 @@ def f(x):
 	return np.exp(-x**2)
 	#return np.sinc(x)
 
-# tan(k)-subtitute version
-def sub_u(x, t, alpha = 1, maxn = 10000):
-	dk = np.pi / maxn
-	coe = dk / np.sqrt(np.pi)
+L = 100
+W_L = np.exp(-2j * np.pi / L)
+l, r = -3, 3
+
+# sample of original function
+# n shall be in [0, maxn - 1]
+def samplef(n):
+	dk = (r - l) / L
+	return f(l + dk * n)
+
+# naive DFT
+def hatf(k):
 	s = 0
-	for n in range(1, maxn):
-		# if f(np.tan(-np.pi + dk * n)) <= eps: continue;
-		s += f(x + 2 * np.tan(-np.pi / 2 + dk * n) * np.sqrt(t * alpha)) * np.exp(-np.tan(-np.pi / 2 + dk * n) ** 2) * (sec(-np.pi / 2 + dk * n) ** 2)
-		"""
-		print("\t%f" % (f(np.tan(-np.pi + dk * n))), end = ' ')
-		print("\t%f" % (np.exp(-((x - np.tan(-np.pi / 2 + dk * n)) ** 2)/(4 * t * alpha))), end = ' ')
-		print("\t%f" % (-((x - np.tan(-np.pi / 2 + dk * n)) ** 2)/(4 * t * alpha)), end = ' ')
-		print("\t%f" % ((sec(-np.pi / 2 + dk * n) ** 2)))
-		"""
-		
-	s += f(x + 2 * np.tan(-np.pi / 2 + dk) * np.sqrt(t * alpha)) * np.exp(-np.tan(-np.pi / 2 + dk) ** 2) * (sec(-np.pi / 2 + dk) ** 2)
-	s += f(x + 2 * np.tan(np.pi / 2 - dk) * np.sqrt(t * alpha)) * np.exp(-np.tan(np.pi / 2 - dk) ** 2) * (sec(np.pi / 2 - dk) ** 2)
-	s *= coe
+	for m in range(L):
+		s += samplef(m) * (W_L**(k*m))
 	return s
 
-# non-subtitute version
-def nonsub_u(x, t, alpha = 1, L = -100, R = 100, maxn = 10000):
-	dk = (R - L) / maxn
-	coe = dk / np.sqrt(np.pi)
+# naive IDFT
+def u(n, t, alpha = 1):
 	s = 0
-	for n in range(1, maxn - 1):
-		s += f(x + 2 * (L + dk * n) * np.sqrt(t * alpha)) * np.exp(-(L + dk * n)**2)
-	s *= coe
-	return s
+	for k in range(L):
+		s += hatf(k) * (W_L**(-k*n)) * np.exp(-t * alpha * (k**2))
+		#print(np.exp(-t * alpha * (k**2)))
+	s /= L
+	#print(s)
+	return s.real
 
-"""
-print(altu(0, 0.1))
-print(u(0, 0.1))
-print(altu(0, 1))
-print(u(0, 1))
-print(u(0, 2))
-print(u(0, 2))
-"""
 
 fig = plt.figure()
 
-X = np.linspace(-10, 10, 1024)
+X = np.array([*range(L)])
+t0 = u(X, 0, alpha = 0.5)
+t1 = u(X, 1, alpha = 0.5)
+t2 = u(X, 2, alpha = 0.5)
+t3 = u(X, 10, alpha = 0.5)
+#t1 = u(X, 0.0001, alpha = 0.5)
+#t2 = u(X, 0.001, alpha = 0.5)
+#t3 = u(X, 0.01, alpha = 0.5)
 
-plt.plot(X, sub_u(X, 0, alpha = 0.5), label = 't=0')
-plt.plot(X, sub_u(X, 1, alpha = 0.5), label = 't=1')
-plt.plot(X, sub_u(X, 2, alpha = 0.5), label = 't=2')
-plt.plot(X, sub_u(X, 4, alpha = 0.5), label = 't=4')
+X = X * ((r - l) / L)
+X = X + l
+
+#print(X)
+
+plt.bar(X, t0, width = 0.1, label = 't=0', alpha = 0.3)
+plt.bar(X, t1, width = 0.1, label = 't=1', alpha = 0.3)
+plt.bar(X, t2, width = 0.1, label = 't=2', alpha = 0.3)
+plt.bar(X, t3, width = 0.1, label = 't=10', alpha = 0.3)
+#plt.bar(X, t1, width = 0.1, label = 't=0.0001', alpha = 0.3)
+#plt.bar(X, t2, width = 0.1, label = 't=0.001', alpha = 0.3)
+#plt.bar(X, t3, width = 0.1, label = 't=0.01', alpha = 0.3)
 
 plt.legend(loc = 0)
+
 plt.show()

@@ -54,12 +54,13 @@ print(u(0, 2))
 
 fig = plt.figure()
 
-X = np.linspace(-10, 10, 1024)
+X = np.linspace(-3, 3, 1024)
 
 plt.plot(X, sub_u(X, 0, alpha = 0.5), label = 't=0')
 plt.plot(X, sub_u(X, 1, alpha = 0.5), label = 't=1')
 plt.plot(X, sub_u(X, 2, alpha = 0.5), label = 't=2')
-plt.plot(X, sub_u(X, 4, alpha = 0.5), label = 't=4')
+#plt.plot(X, sub_u(X, 4, alpha = 0.5), label = 't=4')
+plt.plot(X, sub_u(X, 10, alpha = 0.5), label = 't=10')
 
 plt.legend(loc = 0)
 plt.show()
