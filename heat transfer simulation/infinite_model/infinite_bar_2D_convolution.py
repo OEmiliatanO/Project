@@ -9,9 +9,9 @@ def sec(x):
 
 # original function
 def f(x):
-	return np.piecewise(x, [np.less_equal(abs(x), 1), np.logical_not(np.less_equal(abs(x), 1))], [1, 0])
+	#return np.piecewise(x, [np.less_equal(abs(x), 1), np.logical_not(np.less_equal(abs(x), 1))], [1, 0])
 	#return np.exp(-x**2)
-	#return np.sinc(x)
+	return np.sinc(x)
 
 
 def G(x, t, alpha):
@@ -34,6 +34,8 @@ t1 = u(X, 1, alpha = 0.5)
 t2 = u(X, 2, alpha = 0.5)
 t3 = u(X, 4, alpha = 0.5)
 t4 = u(X, 10, alpha = 0.5)
+t5 = u(X, 30, alpha = 0.5)
+t6 = u(X, 80, alpha = 0.5)
 
 
 plt.plot(X, t0, label = 't=0.001')
@@ -41,6 +43,9 @@ plt.plot(X, t1, label = 't=1')
 plt.plot(X, t2, label = 't=2')
 plt.plot(X, t3, label = 't=4')
 plt.plot(X, t4, label = 't=10')
+plt.plot(X, t5, label = 't=30')
+plt.plot(X, t6, label = 't=80')
+
 
 plt.legend(loc = 0)
 
