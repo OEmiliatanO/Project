@@ -54,14 +54,6 @@ fig = plt.figure()
 X = np.linspace(0.5, l - 0.5, 1024)
 
 calKn()
-"""
-for n in range(10):
-	print(K[n])
-"""
-
-#print(u(0, 0))
-#print(u(1, 0))
-
 
 plt.plot(X, u(X, 0, alpha = 0.5), label = 't=0')
 plt.plot(X, u(X, 1, alpha = 0.5), label = 't=1')

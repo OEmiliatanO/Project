@@ -19,15 +19,7 @@ def sub_u(x, t, alpha = 1, maxn = 10000):
 	coe = dk / np.sqrt(np.pi)
 	s = 0
 	for n in range(1, maxn):
-		# if f(np.tan(-np.pi + dk * n)) <= eps: continue;
 		s += f(x + 2 * np.tan(-np.pi / 2 + dk * n) * np.sqrt(t * alpha)) * np.exp(-np.tan(-np.pi / 2 + dk * n) ** 2) * (sec(-np.pi / 2 + dk * n) ** 2)
-		"""
-		print("\t%f" % (f(np.tan(-np.pi + dk * n))), end = ' ')
-		print("\t%f" % (np.exp(-((x - np.tan(-np.pi / 2 + dk * n)) ** 2)/(4 * t * alpha))), end = ' ')
-		print("\t%f" % (-((x - np.tan(-np.pi / 2 + dk * n)) ** 2)/(4 * t * alpha)), end = ' ')
-		print("\t%f" % ((sec(-np.pi / 2 + dk * n) ** 2)))
-		"""
-		
 	s += f(x + 2 * np.tan(-np.pi / 2 + dk) * np.sqrt(t * alpha)) * np.exp(-np.tan(-np.pi / 2 + dk) ** 2) * (sec(-np.pi / 2 + dk) ** 2)
 	s += f(x + 2 * np.tan(np.pi / 2 - dk) * np.sqrt(t * alpha)) * np.exp(-np.tan(np.pi / 2 - dk) ** 2) * (sec(np.pi / 2 - dk) ** 2)
 	s *= coe
@@ -42,16 +34,6 @@ def nonsub_u(x, t, alpha = 1, L = -100, R = 100, maxn = 10000):
 		s += f(x + 2 * (L + dk * n) * np.sqrt(t * alpha)) * np.exp(-(L + dk * n)**2)
 	s *= coe
 	return s
-
-
-"""
-print(altu(0, 0.1))
-print(u(0, 0.1))
-print(altu(0, 1))
-print(u(0, 1))
-print(u(0, 2))
-print(u(0, 2))
-"""
 
 fig = plt.figure()
 ax = plt.axes(projection = "3d")
